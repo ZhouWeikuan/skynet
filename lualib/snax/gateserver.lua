@@ -45,6 +45,13 @@ function gateserver.start(handler)
 		end
 	end
 
+    function CMD.stat()
+        local info = {
+            client_number = client_number,
+        }
+        return info
+    end
+
 	function CMD.close()
 		assert(socket)
 		socketdriver.close(socket)
