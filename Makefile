@@ -47,7 +47,7 @@ update3rd :
 CSERVICE = snlua logger gate harbor
 LUA_CLIB = skynet \
   client protobuf \
-  bson md5 sproto lpeg
+  bson md5 sproto lpeg yuncheng
 
 LUA_CLIB_SKYNET = \
   lua-skynet.c lua-seri.c \
@@ -114,6 +114,9 @@ $(LUA_CLIB_PATH)/sproto.so : lualib-src/sproto/sproto.c lualib-src/sproto/lsprot
 
 $(LUA_CLIB_PATH)/lpeg.so : 3rd/lpeg/lpcap.c 3rd/lpeg/lpcode.c 3rd/lpeg/lpprint.c 3rd/lpeg/lptree.c 3rd/lpeg/lpvm.c | $(LUA_CLIB_PATH)
 	$(CC) $(CFLAGS) $(SHARED) -I3rd/lpeg $^ -o $@
+
+$(LUA_CLIB_PATH)/yuncheng.so : lualib-src/lua-yuncheng.cpp | $(LUA_CLIB_PATH)
+	$(CC) $(CFLAGS) -DLUA_COMPAT_MODULE -DLUA_COMPAT_APIINTCASTS $(SHARED) -Iskynet-src $^ -std=c++11 -lstdc++ -o $@
 
 clean :
 	rm -f $(SKYNET_BUILD_PATH)/skynet $(CSERVICE_PATH)/*.so $(LUA_CLIB_PATH)/*.so lualib/protobuf.lua
